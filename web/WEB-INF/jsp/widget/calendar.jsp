@@ -9,13 +9,15 @@
             width: 200px;
         }
         .calendar-head-col {
-            width: 100px;
+            width: 150px;
+            text-align: center;
         }
         .calendar-data-row {
-            height: 40px;
+            height: 60px;
         }
         .calendar-data-col {
             padding: 0 !important;
+            width: 150px;
             height: 100%;
         }
         .meeting-box-out {
@@ -24,12 +26,15 @@
         }
         .meeting-box {
             position: absolute;
+            padding: 4px;
             width: calc(100% - 8px);
             margin-left: 4px;
             margin-right: 4px;
             z-index: 2;
             border: 1px solid #d0d0d0;
             background: #e0e0e0;
+            text-align: center;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -50,31 +55,31 @@
 </table>
 <table class="table table-striped table-hover">
     <tbody>
-    <c:forEach var="hour24" begin="${0}" end="${23}">
+    <c:forEach var="hour24" begin="${startHour}" end="${stopHour}">
         <c:choose>
             <c:when test="${hour24 == 0}">
-                <c:set var="loHour" value="12:00a"/>
-                <c:set var="hiHour" value="1:00a"/>
+                <c:set var="loHour" value="12:00 AM"/>
+                <c:set var="hiHour" value="1:00 AM"/>
             </c:when>
             <c:when test="${hour24 < 11}">
-                <c:set var="loHour" value="${hour24}:00a"/>
-                <c:set var="hiHour" value="${hour24 + 1}:00a"/>
+                <c:set var="loHour" value="${hour24}:00 AM"/>
+                <c:set var="hiHour" value="${hour24 + 1}:00 AM"/>
             </c:when>
             <c:when test="${hour24 == 11}">
-                <c:set var="loHour" value="11:00a"/>
-                <c:set var="hiHour" value="12:00p"/>
+                <c:set var="loHour" value="11:00 AM"/>
+                <c:set var="hiHour" value="12:00 PM"/>
             </c:when>
             <c:when test="${hour24 == 12}">
-                <c:set var="loHour" value="12:00p"/>
-                <c:set var="hiHour" value="1:00p"/>
+                <c:set var="loHour" value="12:00 PM"/>
+                <c:set var="hiHour" value="1:00 PM"/>
             </c:when>
             <c:when test="${hour24 < 23}">
-                <c:set var="loHour" value="${hour24 % 12}:00p"/>
-                <c:set var="hiHour" value="${hour24 % 12 + 1}:00p"/>
+                <c:set var="loHour" value="${hour24 % 12}:00 PM"/>
+                <c:set var="hiHour" value="${hour24 % 12 + 1}:00 PM"/>
             </c:when>
             <c:when test="${hour24 == 23}">
-                <c:set var="loHour" value="11:00p"/>
-                <c:set var="hiHour" value="12:00a"/>
+                <c:set var="loHour" value="11:00 PM"/>
+                <c:set var="hiHour" value="12:00 AM"/>
             </c:when>
         </c:choose>
         <tr class="calendar-data-row">
@@ -85,7 +90,11 @@
                     <c:if test="${not empty meeting}">
                         <div class="meeting-box-out" style="top: ${meeting.hourOffset * 100}%;">
                             <div class="meeting-box" style="height: calc(${meeting.hourSpan * 100}% + ${meeting.hourSpan}px);">
-                                    ${meeting.name}
+                                <p>
+                                    From ${meeting.startTimeString}<br>
+                                    To ${meeting.stopTimeString}<br>
+                                    <i>${meeting.name}</i>
+                                </p>
                             </div>
                         </div>
                     </c:if>

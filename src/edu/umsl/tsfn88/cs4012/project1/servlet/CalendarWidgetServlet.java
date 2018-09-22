@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,11 @@ public class CalendarWidgetServlet extends HttpServlet {
 
         // A map of meetings to display
         Map<Integer, Map<Integer, DisplayedMeeting>> meetings = new HashMap<>();
+
+        // Maximum meeting hours
+        // These will be used to compute the calendar display range
+        long earliestStartHour = 23;
+        long latestStopHour = 0;
 
         // Iterate schedule for student
         ScheduleDAO scheduleDAO = new ScheduleDAO();
@@ -61,11 +67,24 @@ public class CalendarWidgetServlet extends HttpServlet {
                 LocalTime start = meeting.getStart().toLocalTime();
                 LocalTime stop = meeting.getStop().toLocalTime();
 
+                // Find maximum meeting hours
+                if (start.getHour() < earliestStartHour) {
+                    earliestStartHour = start.getHour();
+                }
+                if (stop.getHour() > latestStopHour) {
+                    latestStopHour = stop.getHour();
+                }
+
                 // Calculate calendar offset and span values
                 // These are used to compute displacement on the screen
                 final int SECONDS_IN_HOUR = 60 * 60;
                 display.setHourOffset((start.toSecondOfDay() % SECONDS_IN_HOUR) / (float) SECONDS_IN_HOUR);
                 display.setHourSpan((stop.toSecondOfDay() - start.toSecondOfDay()) / (float) SECONDS_IN_HOUR);
+
+                // Store formatted time strings
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
+                display.setStartTimeString(start.format(formatter));
+                display.setStopTimeString(stop.format(formatter));
 
                 // Map the meeting display
                 meetings.computeIfAbsent(meeting.getDay(), k -> new HashMap<>());
@@ -73,10 +92,15 @@ public class CalendarWidgetServlet extends HttpServlet {
             }
         }
 
-        // Store meetings map in request
-        req.setAttribute("meetings", meetings);
+        // Start and stop hours
+        // Show one more hour on either end
+        long startHour = Math.max(0, earliestStartHour - 1);
+        long stopHour = Math.min(23, latestStopHour + 1);
 
         // Forward to widget view page
+        req.setAttribute("startHour", startHour);
+        req.setAttribute("stopHour", stopHour);
+        req.setAttribute("meetings", meetings);
         req.getRequestDispatcher("/WEB-INF/jsp/widget/calendar.jsp").forward(req, resp);
     }
 
@@ -100,10 +124,22 @@ public class CalendarWidgetServlet extends HttpServlet {
          */
         private float mHourSpan;
 
+        /**
+         * The start time string.
+         */
+        private String mStartTimeString;
+
+        /**
+         * The stop time string.
+         */
+        private String mStopTimeString;
+
         public DisplayedMeeting() {
             mName = "";
             mHourOffset = 0;
             mHourSpan = 0;
+            mStartTimeString = "";
+            mStopTimeString = "";
         }
 
         /**
@@ -146,6 +182,34 @@ public class CalendarWidgetServlet extends HttpServlet {
          */
         public void setHourSpan(float pHourSpan) {
             mHourSpan = pHourSpan;
+        }
+
+        /**
+         * @return The start time string
+         */
+        public String getStartTimeString() {
+            return mStartTimeString;
+        }
+
+        /**
+         * @param pStartTimeString The start time string
+         */
+        public void setStartTimeString(String pStartTimeString) {
+            mStartTimeString = pStartTimeString;
+        }
+
+        /**
+         * @return The start time string
+         */
+        public String getStopTimeString() {
+            return mStopTimeString;
+        }
+
+        /**
+         * @param pStopTimeString The stop time string
+         */
+        public void setStopTimeString(String pStopTimeString) {
+            mStopTimeString = pStopTimeString;
         }
 
     }
