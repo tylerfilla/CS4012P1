@@ -11,16 +11,15 @@
 </head>
 <body>
 <div class="container">
-    <div class="panel">
-        <form action="doRegister" method="post">
-            <h2>Student Registration</h2>
-            <p>Please fill out this form to register</p>
-            <input type="text" name="fname" class="form-control" placeholder="First Name">
-            <input type="text" name="lname" class="form-control" placeholder="Last Name">
-            <input type="text" name="num" class="form-control" placeholder="Student Number">
-            <input type="submit" name="btn" class="btn" value="Complete Registration">
-        </form>
-    </div>
+    <form action="doRegister" method="post">
+        <h2>Student Registration</h2>
+        <p>Please register for an account below</p>
+        <input type="text" name="fname" class="form-control" placeholder="First Name">
+        <input type="text" name="lname" class="form-control" placeholder="Last Name">
+        <input type="text" name="num" class="form-control" placeholder="Student Number">
+        <input type="submit" name="btn" class="btn" value="Submit">
+        <a href="login">Back</a>
+    </form>
 </div>
 </body>
 </html>

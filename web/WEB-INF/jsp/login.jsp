@@ -11,16 +11,13 @@
 </head>
 <body>
 <div class="container">
-    <div class="panel">
-        <form action="doLogin" method="post">
-            <h2>Student Login</h2>
-            <p>Please enter your student number</p>
-            <input type="text" name="num" class="form-control" placeholder="Student Number">
-            <input type="submit" class="btn btn-primary" value="Log In">
-        </form>
+    <form action="doLogin" method="post">
+        <h2>Student Login</h2>
+        <p>Please enter your student number</p>
+        <input type="text" name="num" class="form-control" placeholder="Student Number">
+        <input type="submit" class="btn btn-primary" value="Log In">
         <a href="register">Register</a>
-    </div>
-    <p>This login page is not for security purposes. It just allows multiple students to manage their schedules.</p>
+    </form>
 </div>
 </body>
 </html>
