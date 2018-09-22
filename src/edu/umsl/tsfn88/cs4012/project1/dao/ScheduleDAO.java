@@ -189,4 +189,51 @@ public class ScheduleDAO implements DAO<Schedule> {
         return Optional.empty();
     }
 
+    public List<Schedule> getAllByStudent(long student) {
+        List<Schedule> objs = new ArrayList<>();
+
+        Connection conn = ConnectionFactory.getConnection();
+
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement("SELECT * FROM schedule WHERE student = ?");
+        } catch (Exception e) {
+            new RuntimeException("Could not prepare query statement", e).printStackTrace();
+        }
+
+        try {
+            stmt.setLong(1, student);
+        } catch (Exception e) {
+            new RuntimeException("Could not set query parameters", e).printStackTrace();
+        }
+
+        ResultSet results = null;
+        try {
+            stmt.execute();
+            results = stmt.getResultSet();
+        } catch (Exception e) {
+            new RuntimeException("Could not execute query for results", e).printStackTrace();
+        }
+
+        try {
+            while (results.next()) {
+                Schedule obj = new Schedule();
+                obj.setSid(results.getLong("sid"));
+                obj.setStudent(results.getLong("student"));
+                obj.setSection(results.getLong("section"));
+                objs.add(obj);
+            }
+        } catch (Exception e) {
+            new RuntimeException("Could not retrieve query results", e).printStackTrace();
+        }
+
+        try {
+            stmt.close();
+        } catch (Exception e) {
+            new RuntimeException("Could not close query statement", e).printStackTrace();
+        }
+
+        return objs;
+    }
+
 }

@@ -198,4 +198,53 @@ public class MeetingDAO implements DAO<Meeting> {
         return Optional.empty();
     }
 
+    public List<Meeting> getAllBySection(long section) {
+        List<Meeting> objs = new ArrayList<>();
+
+        Connection conn = ConnectionFactory.getConnection();
+
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement("SELECT * FROM meeting WHERE section = ?");
+        } catch (Exception e) {
+            new RuntimeException("Could not prepare query statement", e).printStackTrace();
+        }
+
+        try {
+            stmt.setLong(1, section);
+        } catch (Exception e) {
+            new RuntimeException("Could not set query parameters", e).printStackTrace();
+        }
+
+        ResultSet results = null;
+        try {
+            stmt.execute();
+            results = stmt.getResultSet();
+        } catch (Exception e) {
+            new RuntimeException("Could not execute query for results", e).printStackTrace();
+        }
+
+        try {
+            while (results.next()) {
+                Meeting obj = new Meeting();
+                obj.setMid(results.getLong("mid"));
+                obj.setSection(results.getLong("section"));
+                obj.setDay(results.getInt("day"));
+                obj.setStart(results.getTime("start"));
+                obj.setStop(results.getTime("stop"));
+                objs.add(obj);
+            }
+        } catch (Exception e) {
+            new RuntimeException("Could not retrieve query results", e).printStackTrace();
+        }
+
+        try {
+            stmt.close();
+        } catch (Exception e) {
+            new RuntimeException("Could not close query statement", e).printStackTrace();
+        }
+
+        return objs;
+    }
+
 }
