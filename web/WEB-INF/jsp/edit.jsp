@@ -7,5 +7,6 @@
 </head>
 <body>
 Hi, ${student.fname}. <a href="doLogout">Log Out</a>
+<jsp:include page="widget/calendar.jspf"/>
 </body>
 </html>
