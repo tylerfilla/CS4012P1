@@ -55,6 +55,7 @@ public class MeetingDAO implements DAO<Meeting> {
 
         try {
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not close query statement", e).printStackTrace();
         }
@@ -92,6 +93,7 @@ public class MeetingDAO implements DAO<Meeting> {
             obj.setMid(keyResultSet.getInt(1));
 
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not execute insert", e).printStackTrace();
         }
@@ -121,6 +123,7 @@ public class MeetingDAO implements DAO<Meeting> {
         try {
             stmt.execute();
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not execute update", e).printStackTrace();
         }
@@ -146,6 +149,7 @@ public class MeetingDAO implements DAO<Meeting> {
         try {
             stmt.execute();
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not execute delete", e).printStackTrace();
         }
@@ -191,6 +195,7 @@ public class MeetingDAO implements DAO<Meeting> {
 
         try {
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not close query statement", e).printStackTrace();
         }
@@ -240,6 +245,7 @@ public class MeetingDAO implements DAO<Meeting> {
 
         try {
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not close query statement", e).printStackTrace();
         }

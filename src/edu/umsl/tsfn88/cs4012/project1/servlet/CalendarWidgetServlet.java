@@ -60,8 +60,10 @@ public class CalendarWidgetServlet extends HttpServlet {
                 // The meeting display
                 DisplayedMeeting display = new DisplayedMeeting();
 
-                // Show the course name
+                // Show the course name and section number
                 display.setName(course.getName());
+                display.setSectionId(section.getSid());
+                display.setSectionNum(section.getNum());
 
                 // Get start and stop times for course section meeting
                 LocalTime start = meeting.getStart().toLocalTime();
@@ -115,6 +117,16 @@ public class CalendarWidgetServlet extends HttpServlet {
         private String mName;
 
         /**
+         * The course section ID.
+         */
+        private long mSectionId;
+
+        /**
+         * The course section number.
+         */
+        private long mSectionNum;
+
+        /**
          * The offset.
          */
         private float mHourOffset;
@@ -136,6 +148,8 @@ public class CalendarWidgetServlet extends HttpServlet {
 
         public DisplayedMeeting() {
             mName = "";
+            mSectionId = 0;
+            mSectionNum = 0;
             mHourOffset = 0;
             mHourSpan = 0;
             mStartTimeString = "";
@@ -154,6 +168,34 @@ public class CalendarWidgetServlet extends HttpServlet {
          */
         public void setName(String pName) {
             mName = pName;
+        }
+
+        /**
+         * @param pSectionId The course section ID
+         */
+        public void setSectionId(long pSectionId) {
+            mSectionId = pSectionId;
+        }
+
+        /**
+         * @return The course section ID
+         */
+        public long getSectionId() {
+            return mSectionId;
+        }
+
+        /**
+         * @param pSectionNum The course section number
+         */
+        public void setSectionNum(long pSectionNum) {
+            mSectionNum = pSectionNum;
+        }
+
+        /**
+         * @return The course section number
+         */
+        public long getSectionNum() {
+            return mSectionNum;
         }
 
         /**

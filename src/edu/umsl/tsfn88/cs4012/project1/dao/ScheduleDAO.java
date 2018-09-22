@@ -53,6 +53,7 @@ public class ScheduleDAO implements DAO<Schedule> {
 
         try {
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not close query statement", e).printStackTrace();
         }
@@ -87,6 +88,7 @@ public class ScheduleDAO implements DAO<Schedule> {
             obj.setSid(keyResultSet.getInt(1));
 
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not execute insert", e).printStackTrace();
         }
@@ -114,6 +116,7 @@ public class ScheduleDAO implements DAO<Schedule> {
         try {
             stmt.execute();
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not execute update", e).printStackTrace();
         }
@@ -139,6 +142,7 @@ public class ScheduleDAO implements DAO<Schedule> {
         try {
             stmt.execute();
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not execute delete", e).printStackTrace();
         }
@@ -182,6 +186,7 @@ public class ScheduleDAO implements DAO<Schedule> {
 
         try {
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not close query statement", e).printStackTrace();
         }
@@ -229,6 +234,7 @@ public class ScheduleDAO implements DAO<Schedule> {
 
         try {
             stmt.close();
+            conn.close();
         } catch (Exception e) {
             new RuntimeException("Could not close query statement", e).printStackTrace();
         }

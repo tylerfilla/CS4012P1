@@ -25,7 +25,8 @@
 <body>
 <div id="root-container" class="container">
     <h4 id="login-bar">Hi, ${student.fname}. <a class="btn btn-primary" href="doLogout" role="button">Log Out</a></h4>
-    <h2>Your Week <a class="btn btn-primary" href="edit" role="button">Edit</a></h2>
+    <h2>Your Week</h2>
+    <a class="btn btn-primary" href="edit" role="button">Edit Your Schedule</a>
     <iframe id="calendar-frame" src="widget/calendar" frameborder="0"></iframe>
 </div>
 </body>
