@@ -62,6 +62,7 @@ public class EditServlet extends HttpServlet {
         }
 
         // Forward to edit page
+        req.setAttribute("courses", courses);
         req.setAttribute("courseNames", courseNames);
         req.setAttribute("sections", sections);
         req.setAttribute("student", student);
